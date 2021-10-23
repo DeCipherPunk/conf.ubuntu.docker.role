@@ -1,0 +1,6 @@
+---
+# handlers file for conf.docker.role
+- name: restart docker
+  service: 
+    name: docker 
+    state: restarted

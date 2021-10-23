@@ -1,0 +1,50 @@
+---
+# tasks file for conf.docker.role
+- name: Install Docker Prequisits 
+  apt: 
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+    update_cache: yes
+    autoclean: yes
+
+- name: Add docker gpg keyring
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add docker repository to apt
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Install docker ce
+  apt:
+    state: latest
+    update_cache: yes
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      
+- name: Ensure docker is started
+  service:
+      name: docker
+      state: started
+      enabled: yes
+
+- name: Ensure group "docker" exists
+  group:
+    name: docker
+    state: present
+
+- name: Add user to docker
+  user:
+    name: "{{user_name}}"
+    comment: John Doe
+    group: docker
+
