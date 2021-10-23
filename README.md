@@ -1,1 +1,1 @@
-conf.docker.role
+conf.ubuntu.docker.role
